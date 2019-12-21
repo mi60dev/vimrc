@@ -1,3 +1,4 @@
+:set relativenumber
 :set number
 let g:user_emmet_leader_key=','
 
@@ -5,9 +6,6 @@ let g:user_emmet_leader_key=','
 " => Plugins
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "-- PLUGINS (Using juegunn/vim-plug) --"
-call plug#begin()
-Plug 'mattn/emmet-vim'
-call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Custom remap
@@ -21,7 +19,9 @@ let NERDTreeShowLineNumbers=1
 " let NERDTreeMinimalUI = 1
 let NERDTreeDirArrows = 1
 let g:NERDTreeMapActivateNode = 'l'
+let NERDTreeWinSize = 38 
 
+nnoremap ss :grep -rnw './' -e '
 inoremap jj <Esc>
 nnoremap tn :tabnew<Space>
 nnoremap qqq :wq<CR>
@@ -29,14 +29,18 @@ nnoremap <S-q> :q!<CR>
 nnoremap <S-w> :w<CR>:echo "Saved!"<CR>
 nnoremap qq :echo ""<CR>
 nnoremap <C-j> <S-%>
+nnoremap <S-1> :!
+nnoremap <C-s> :! grep -rnw './' -e '
 
 nnoremap tk :tabnext<CR>
 nnoremap tj :tabprev<CR>
 
 nnoremap th :tabfirst<CR>
 nnoremap tl :tablast<CR>
+nnoremap tc :tabclose<CR>
 
 nmap <F6> :NERDTreeToggle<CR>
+let NERDTreeMapOpenInTab='<ENTER>'
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
