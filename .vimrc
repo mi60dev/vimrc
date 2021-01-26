@@ -32,12 +32,16 @@ nnoremap <F4>  : GitGutterToggle<Enter>
 nnoremap <F5>  : set relativenumber!<Enter> : set number!<Enter>
 nmap     <F6>  : NERDTreeToggle<CR>
 
-nnoremap ;     : FZF<CR>
+nnoremap ;     :GFiles<CR>
+nnoremap \     :Ag<CR>
 xnoremap <c-t> : '<,'>Tab /
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => vim-plug https://github.com/junegunn/vim-plug
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Source Vim configuration file and install plugins
+nnoremap <leader>1 :source ~/.vimrc \| :PlugInstall<CR>
+
 call plug#begin()
 Plug 'chriskempson/base16-vim'
 Plug 'vim-airline/vim-airline'
@@ -53,7 +57,10 @@ Plug 'mileszs/ack.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'SirVer/ultisnips'
 Plug 'ycm-core/YouCompleteMe'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
 Plug 'ashisha/image.vim'
+Plug 'captbaritone/better-indent-support-for-php-with-html'
 call plug#end()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -111,7 +118,7 @@ noremap <Leader>fu :call PhpUsage('<cword>')<CR>
 " - https://github.com/nvim-lua/completion-nvim
 let g:UltiSnipsSnippetDirectories=[$HOME.'/.vim/UltiSnips']
 
-let g:UltiSnipsExpandTrigger="<c-s>"
+let g:UltiSnipsExpandTrigger="<C-s>"
 
 let g:UltiSnipsListSnippets="<c-a>"
 let g:UltiSnipsJumpForwardTrigger="<c-j>"
@@ -134,52 +141,10 @@ let g:Powerline_symbols='unicode'
 " Nothing here yet
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Dev remap HTML
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap Hc a class=""<Left>
-nnoremap Hcn a className=""<Left>
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Dev remap PHP
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap Pdi odie;<Esc>
-nnoremap Ppf opublic function methodName(){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Ppfp opublic function methodName($params){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Ppfn opublic function methodName(Namespace $namespace){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Ppfnp opublic function methodName(Namespace $namespace, $params){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-
-nnoremap Pii oif(){<Left><BS><Esc>ajuu}<Esc>kklla
-
-nnoremap Pif oprivate function methodName(){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Pifp oprivate function methodName($params){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Pifn oprivate function methodName(Namespace $namespace){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Pifnp oprivate function methodName(Namespace $namespace, $params){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-
-nnoremap Pof oprotected function methodName(){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Pofp oprotected function methodName($params){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Pofn oprotected function methodName(Namespace $namespace){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-nnoremap Pofnp oprotected function methodName(Namespace $namespace, $params){}<Esc>i<CR><BS><Esc>kf{i<CR><Esc>o
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Dev remap Laravel
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap Pdd odd();<Esc>hi
-nnoremap Prrj areturn response()->json($data, 200);<Esc>4b
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Dev remap JS
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap Jcl oconsole.log();<Esc>hi
-nnoremap JcL Oconsole.log();<Esc>hi
-nnoremap JCl oconsole.log([]);<Esc>hi
-nnoremap JCL Oconsole.log([]);<Esc>hi
 nnoremap Jrf Oreturn false;<Esc>
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Dev remap JS React JS
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap Rss othis.setState({: value});<Esc>F{a
-nnoremap RsS Othis.setState({: value});<Esc>F{a
-nnoremap Rts ithis.state.
-nnoremap RtS ithis.state.
-nnoremap Rcn i className=""<Esc>i
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Custom remap
@@ -196,13 +161,13 @@ let g:NERDTreeMapActivateNode = 'l'
 let NERDTreeWinSize = 38 
 
 " nnoremap ss :grep -rnw './' -e '
-nnoremap sS :Ack  
 inoremap jj <Esc>
+nnoremap sS :Ack  
 nnoremap tn :tabnew<Space>
-nnoremap qqq :wq<CR>
+nnoremap qq :wq<CR>
 nnoremap <S-q> :q!<CR>
-nnoremap <S-w> :w<CR>:echo "Saved!"<CR>
-nnoremap qq :echo ""<CR>
+"nnoremap <S-w> :w<CR>:echo "Saved!"<CR>
+nnoremap <C-w> :update<CR>:echo "Saved!"<CR>
 nnoremap <C-j> <S-%>
 nnoremap <S-1> :!
 nnoremap <S-s> :! grep -rnw './' -e '
@@ -323,9 +288,9 @@ set tabstop=4
 set lbr
 set tw=500
 
-set ai "Auto indent
-set si "Smart indent
-set wrap "Wrap lines
+"set ai "Auto indent
+"set si "Smart indent
+"set wrap "Wrap lines
 
 
 """"""""""""""""""""""""""""""
